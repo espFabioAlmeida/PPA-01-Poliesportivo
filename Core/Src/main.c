@@ -60,12 +60,19 @@ uint8_t
 	flagLedCPU = false,
 	flagLedCOM = false,
 
+	flagPacoteRS485 = true,
+
 	flagCronometro = false;
 
 uint8_t
 	faltasEquipeA = 0,
 	faltasEquipeB = 0,
-	periodo = 1;
+	periodo = 1,
+
+	contadorRS485Buffer = 0;
+
+char
+	rs485DataIn = 0;
 
 uint16_t
 	pontosEquipeA = 0,
@@ -77,7 +84,7 @@ uint8_t
 	displaysEquipeB[5];
 
 char
-	uartBuffer[UART_BUFFER_SIZE];
+	rs485Buffer[TAMANHO_RS485_BUFFER];
 
 /* USER CODE END PV */
 
@@ -111,6 +118,22 @@ void delayMicro(uint32_t tempo) {
 
 void reiniciaWatchDog() {
 	HAL_IWDG_Refresh(&hiwdg);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if(huart-> Instance==USART2) { // RS485
+		rs485Buffer[contadorRS485Buffer] = rs485DataIn;
+		contadorRS485Buffer ++;
+
+		if(contadorRS485Buffer >= TAMANHO_RS485_BUFFER) {
+			limpaRS485Buffer();
+		}
+
+		if(rs485DataIn == 0x0A) {
+			flagPacoteRS485 = true;
+		}
+	}
+
 }
 /* USER CODE END 0 */
 
@@ -158,6 +181,7 @@ int main(void)
   verificaEeprom();
   readEeprom();
 
+  HAL_UART_Receive_DMA(&huart2, &rs485DataIn, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */

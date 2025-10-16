@@ -13,7 +13,7 @@ enum BOOL {
 	true
 };
 
-#define UART_BUFFER_SIZE  64
+#define TAMANHO_RS485_BUFFER  64
 
 typedef struct {
 	uint8_t minutos;
@@ -33,12 +33,18 @@ extern uint8_t
 	flagLedCPU,
 	flagLedCOM,
 
-	flagCronometro;
+	flagCronometro,
+	flagPacoteRS485;
 
 extern uint8_t
 	faltasEquipeA,
 	faltasEquipeB,
-	periodo;
+	periodo,
+
+	contadorRS485Buffer;
+
+extern char
+	rs485DataIn;
 
 extern uint16_t
 	pontosEquipeA,
@@ -50,6 +56,6 @@ extern uint8_t
 	displaysEquipeB[5];
 
 extern char
-	uartBuffer[UART_BUFFER_SIZE];
+	rs485Buffer[TAMANHO_RS485_BUFFER];
 
 #endif /* INC_GLOBAL_H_ */
