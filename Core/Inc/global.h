@@ -26,6 +26,34 @@ enum TIPO_CRONOMETRO {
 	PROGRESSIVO
 };
 
+enum COMANDO_PLACAR {
+	SEM_COMANDO,
+	TIMEA_1,
+	TIMEA_2,
+	TIMEA_3,
+	TIMEA_M1,
+	TIMEA_FALTA_1,
+	TIMEA_FALTA_M1,
+	TIMEA_TEMPO,
+
+	TIMEB_1,
+	TIMEB_2,
+	TIMEB_3,
+	TIMEB_M1,
+	TIMEB_FALTA_1,
+	TIMEB_FALTA_M1,
+	TIMEB_TEMPO,
+
+	SOLTA_CRONOMETRO,
+	PARA_CRONOMETRO,
+	CAMPAINHA,
+	ZERA_FALTA,
+	ZERA_CRONOMETRO,
+	ZERA_TUDO,
+	PERIODO_1,
+	PERIODO_M1
+};
+
 extern UART_HandleTypeDef
 	huart2;
 extern I2C_HandleTypeDef
@@ -47,6 +75,8 @@ extern uint8_t
 	faltasEquipeB,
 	periodo,
 	tipoCronometro,
+
+	comandoPlacar,
 
 	contadorRS485Buffer;
 

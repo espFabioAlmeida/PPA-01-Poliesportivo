@@ -6,6 +6,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "main.h"
 #include "global.h"
+#include "string.h"
+/*==============================================================================
+ENVIA RESPOSTA
+==============================================================================*/
+void enviaRespostaRS485(uint8_t comando) {
+	char bufferEnviaRS485[9];
+	char dataChar[4];
+	memset(bufferEnviaRS485, 0x00, 9);
+	memset(dataChar, 0x00, 4);
+
+	if(!comando) {
+		return;
+	}
+	sprintf(dataChar, "%u", comando);
+
+	strcat(bufferEnviaRS485, "$,");
+	if(comando <= 9) {
+		strcat(bufferEnviaRS485, "0");
+	}
+	strcat(bufferEnviaRS485, dataChar);
+	strcat(bufferEnviaRS485, ",\r\n");
+
+	HAL_UART_Transmit(&huart2, &bufferEnviaRS485, strlen(bufferEnviaRS485), 200);
+}
 /*==============================================================================
 CONFIGURAÇÃO CRONOMETRO
 ==============================================================================*/
@@ -54,8 +78,37 @@ void protocoloRS485() {
 
 		switch(comando) {
 			case 1: comandoConfiguracaoCronometro(offset); break;
+
+			case 2: comandoPlacar = TIMEA_1; break;
+			case 3: comandoPlacar = TIMEA_2; break;
+			case 4: comandoPlacar = TIMEA_3; break;
+			case 5: comandoPlacar = TIMEA_M1; break;
+			case 6: comandoPlacar = TIMEA_FALTA_1; break;
+			case 7: comandoPlacar = TIMEA_FALTA_M1; break;
+			case 8: comandoPlacar = TIMEA_TEMPO; break;
+
+			case 9: comandoPlacar = TIMEB_1; break;
+			case 10: comandoPlacar = TIMEB_2; break;
+			case 11: comandoPlacar = TIMEB_3; break;
+			case 12: comandoPlacar = TIMEB_M1; break;
+			case 13: comandoPlacar = TIMEB_FALTA_1; break;
+			case 14: comandoPlacar = TIMEB_FALTA_M1; break;
+			case 15: comandoPlacar = TIMEB_TEMPO; break;
+
+			case 16: comandoPlacar = SOLTA_CRONOMETRO; break;
+			case 17: comandoPlacar = PARA_CRONOMETRO; break;
+			case 18: comandoPlacar = CAMPAINHA; break;
+			case 19: comandoPlacar = ZERA_FALTA; break;
+			case 20: comandoPlacar = ZERA_CRONOMETRO; break;
+			case 21: comandoPlacar = ZERA_TUDO; break;
+			case 22: comandoPlacar = PERIODO_1; break;
+			case 23: comandoPlacar = PERIODO_M1; break;
+
+			default: comandoPlacar = SEM_COMANDO; break;
 		}
 	}
+
+	enviaRespostaRS485(comando);
 
 	limpaRS485Buffer();
 	flagPacoteRS485 = false;

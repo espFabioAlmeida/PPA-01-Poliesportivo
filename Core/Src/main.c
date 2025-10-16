@@ -71,6 +71,8 @@ uint8_t
 	periodo = 1,
 	tipoCronometro = REGRESSIVO,
 
+	comandoPlacar = SEM_COMANDO,
+
 	contadorRS485Buffer = 0;
 
 char
