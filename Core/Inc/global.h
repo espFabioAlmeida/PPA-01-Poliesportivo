@@ -42,6 +42,11 @@ extern uint16_t
 	pontosEquipeA,
 	pontosEquipeB;
 
+extern uint8_t
+	displaysCronometro[5],
+	displaysEquipeA[5],
+	displaysEquipeB[5];
+
 extern char
 	uartBuffer[UART_BUFFER_SIZE];
 

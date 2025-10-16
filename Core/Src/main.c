@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "global.h"
@@ -52,6 +53,30 @@ DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
 
+CronometroTypeDef
+	cronometro;
+
+uint8_t
+	flagLedCPU = false,
+	flagLedCOM = false;
+
+uint8_t
+	faltasEquipeA = 0,
+	faltasEquipeB = 0,
+	periodo = 1;
+
+uint16_t
+	pontosEquipeA = 0,
+	pontosEquipeB = 0;
+
+uint8_t
+	displaysCronometro[5],
+	displaysEquipeA[5],
+	displaysEquipeB[5];
+
+char
+	uartBuffer[UART_BUFFER_SIZE];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,7 +95,21 @@ static void MX_TIM6_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if(htim == &htim3) {
+		schedulerEngine();
+	}
+}
 
+void delayMicro(uint32_t tempo) {
+	__HAL_TIM_SET_COUNTER(&htim2, 0);
+	while(__HAL_TIM_GET_COUNTER(&htim2) < tempo) {
+	}
+}
+
+void reiniciaWatchDog() {
+	HAL_IWDG_Refresh(&hiwdg);
+}
 /* USER CODE END 0 */
 
 /**
@@ -455,7 +494,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, OUT5_Pin|OUT6_Pin|DISPLAY2_ST_Pin|DISPLAY2_ENABLE_Pin
-                          |DISPLAY3_DATAC8_Pin|DISPLAY3_CLOCKC9_Pin, GPIO_PIN_RESET);
+                          |DISPLAY2_DATA_Pin|DISPLAY2_CLOCK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, OUT7_Pin|LED_CLOCK_Pin|LED_EQUIPEA_Pin|LED_EQUIPEB_Pin
@@ -474,9 +513,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : OUT5_Pin OUT6_Pin DISPLAY2_ST_Pin DISPLAY2_ENABLE_Pin
-                           DISPLAY3_DATAC8_Pin DISPLAY3_CLOCKC9_Pin */
+                           DISPLAY2_DATA_Pin DISPLAY2_CLOCK_Pin */
   GPIO_InitStruct.Pin = OUT5_Pin|OUT6_Pin|DISPLAY2_ST_Pin|DISPLAY2_ENABLE_Pin
-                          |DISPLAY3_DATAC8_Pin|DISPLAY3_CLOCKC9_Pin;
+                          |DISPLAY2_DATA_Pin|DISPLAY2_CLOCK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
