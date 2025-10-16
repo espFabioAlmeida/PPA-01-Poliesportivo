@@ -29,6 +29,7 @@ TAREFAS 100ms
 ==============================================================================*/
 void tarefas100ms() {
 	static uint8_t conta500ms = 0;
+	static uint8_t contaTempoCampainha = 0;
 	reiniciaWatchDog();
 
 	conta500ms ++;
@@ -41,6 +42,19 @@ void tarefas100ms() {
 		else {
 			on(LED_CLOCK_GPIO_Port, LED_CLOCK_Pin);
 		}
+	}
+
+	if(flagCampainha) {
+		on(SIRENE_GPIO_Port, SIRENE_Pin);
+		contaTempoCampainha ++;
+		if(contaTempoCampainha >= TEMPO_CAMPAINHA) {
+			contaTempoCampainha = 0;
+			flagCampainha = 0;
+		}
+	}
+	else {
+		contaTempoCampainha = 0;
+		off(SIRENE_GPIO_Port, SIRENE_Pin);
 	}
 }
 /*==============================================================================

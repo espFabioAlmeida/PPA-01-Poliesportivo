@@ -14,6 +14,7 @@ enum BOOL {
 };
 
 #define TAMANHO_RS485_BUFFER  64
+#define TEMPO_CAMPAINHA 10
 
 typedef struct {
 	uint8_t minutos;
