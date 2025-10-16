@@ -89,8 +89,8 @@ void displaySeparaDigitos() {
 ATUALIZA DISPLAY
 ==============================================================================*/
 void atualizaDisplays() {
-	static uint8_t valorDisplayCronometro = 0, valorDisplayEquipeA = 0, valorDisplayEquipeB = 0, bit = 0, numero = 0;
-	static uint16_t controleFuncao = 0;
+	static uint8_t valorDisplayCronometro = 0, valorDisplayEquipeA = 0, valorDisplayEquipeB = 0;
+	static uint8_t controleFuncao = 0, bit = 0, numero = 0;
 
 	on(DISPLAY1_ENABLE_GPIO_Port, DISPLAY1_ENABLE_Pin);
 	on(DISPLAY1_ST_GPIO_Port, DISPLAY1_ST_Pin);
