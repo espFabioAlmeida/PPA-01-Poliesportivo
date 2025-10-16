@@ -54,7 +54,8 @@ DMA_HandleTypeDef hdma_usart2_rx;
 /* USER CODE BEGIN PV */
 
 CronometroTypeDef
-	cronometro;
+	cronometro,
+	setpointCronometro;
 
 uint8_t
 	flagLedCPU = false,
@@ -68,6 +69,7 @@ uint8_t
 	faltasEquipeA = 0,
 	faltasEquipeB = 0,
 	periodo = 1,
+	tipoCronometro = REGRESSIVO,
 
 	contadorRS485Buffer = 0;
 
@@ -191,6 +193,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  protocoloRS485();
   }
   /* USER CODE END 3 */
 }

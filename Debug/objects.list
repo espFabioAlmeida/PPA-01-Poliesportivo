@@ -7,6 +7,7 @@
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32f0xx.o"
 "./Core/Src/subrotinas/SubrotinasDisplay.o"
+"./Core/Src/subrotinas/SubrotinasProtocoloRS485.o"
 "./Core/Src/utilities/Utility7Segmentos.o"
 "./Core/Src/utilities/UtilityEeprom.o"
 "./Core/Src/utilities/UtilityGPIO.o"

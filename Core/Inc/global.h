@@ -21,13 +21,19 @@ typedef struct {
 	uint8_t decimais;
 } CronometroTypeDef;
 
+enum TIPO_CRONOMETRO {
+	REGRESSIVO,
+	PROGRESSIVO
+};
+
 extern UART_HandleTypeDef
 	huart2;
 extern I2C_HandleTypeDef
 	hi2c1;
 
 extern CronometroTypeDef
-	cronometro;
+	cronometro,
+	setpointCronometro;
 
 extern uint8_t
 	flagLedCPU,
@@ -40,6 +46,7 @@ extern uint8_t
 	faltasEquipeA,
 	faltasEquipeB,
 	periodo,
+	tipoCronometro,
 
 	contadorRS485Buffer;
 

@@ -6,7 +6,7 @@ O placar é controlado pela porta serial RS485. <br>
 O cronômetro pode ser crescente ou decrescente. <br>
 # Protocolo RS485
 Comando 1: Configuração do teclado, funciona apenas com o placar parado e zerado. <br>
-$,01,20000,00000,1,\r\n <br>
+-$,01,20000,00000,1,\r\n <br>
 20000 = Tempo de setpoint <br>
 00000 = Tempo ajustado <br>
 1 = Tipo de cronômetro, sendo 1 para regressivo e 2 para progressivo <br>
