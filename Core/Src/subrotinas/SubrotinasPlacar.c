@@ -79,19 +79,25 @@ void comandosCronometro() {
 
 		case ZERA_FALTA:
 			if(!flagCronometro) {
-				//TODO ZERAR FALTAS
+				faltasEquipeA = 0;
+				faltasEquipeB = 0;
 			}
 			break;
 
 		case ZERA_CRONOMETRO:
 			if(!flagCronometro) {
-				//TODO ZERAR FALTAS
+				zeraCronometro();
 			}
 			break;
 
 		case ZERA_TUDO:
 			if(!flagCronometro) {
-				//TODO ZERAR FALTAS
+				faltasEquipeA = 0;
+				faltasEquipeB = 0;
+				pontosEquipeA = 0;
+				pontosEquipeB = 0;
+				periodo = 1;
+				zeraCronometro();
 			}
 			break;
 	}

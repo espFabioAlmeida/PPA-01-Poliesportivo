@@ -6,6 +6,7 @@
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32f0xx.o"
+"./Core/Src/subrotinas/SubrotinasCronometro.o"
 "./Core/Src/subrotinas/SubrotinasDisplay.o"
 "./Core/Src/subrotinas/SubrotinasPlacar.o"
 "./Core/Src/subrotinas/SubrotinasProtocoloRS485.o"
