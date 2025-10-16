@@ -37,6 +37,16 @@ void apresentacaoInicial() {
 	cronometro.segundos = 34;
 	cronometro.decimais = 5;
 	HAL_Delay(1500);
+
+	pontosEquipeA = 0;
+	pontosEquipeB = 0;
+	faltasEquipeA = 0;
+	periodo = 1;
+	faltasEquipeB = 0;
+
+	cronometro.minutos = 20;
+	cronometro.segundos = 0;
+	cronometro.decimais = 0;
 }
 /*==============================================================================
 FIM DO ARQUIVO
