@@ -61,9 +61,11 @@ uint8_t
 	flagLedCPU = false,
 	flagLedCOM = false,
 
-	flagPacoteRS485 = true,
+	flagCampainha = false,
+	flagCronometro = false,
+	flagCronometroZerado = false,
 
-	flagCronometro = false;
+	flagPacoteRS485 = true;
 
 uint8_t
 	faltasEquipeA = 0,
@@ -192,6 +194,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  controlePlacar();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

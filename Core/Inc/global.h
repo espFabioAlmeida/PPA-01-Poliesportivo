@@ -67,7 +67,10 @@ extern uint8_t
 	flagLedCPU,
 	flagLedCOM,
 
+	flagCampainha,
 	flagCronometro,
+	flagCronometroZerado,
+
 	flagPacoteRS485;
 
 extern uint8_t
