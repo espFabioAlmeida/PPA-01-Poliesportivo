@@ -148,6 +148,13 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start(&htim2); //Timer do delay us
+  HAL_TIM_Base_Start_IT(&htim3); //Timer do Scheduller
+
+  apresentacaoInicial();
+
+  verificaEeprom();
+  readEeprom();
 
   /* USER CODE END 2 */
 
