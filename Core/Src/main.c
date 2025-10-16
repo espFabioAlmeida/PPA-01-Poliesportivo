@@ -63,7 +63,7 @@ uint8_t
 
 	flagCampainha = false,
 	flagCronometro = false,
-	flagCronometroZerado = false,
+	flagCronometroEstourado = false,
 
 	flagPacoteRS485 = true;
 
@@ -113,6 +113,10 @@ static void MX_TIM6_Init(void);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if(htim == &htim3) {
 		schedulerEngine();
+	}
+
+	if(htim == &htim6) {
+		controleCronometro();
 	}
 }
 

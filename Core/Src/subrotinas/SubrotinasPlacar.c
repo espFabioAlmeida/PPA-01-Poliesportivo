@@ -62,7 +62,7 @@ void comandosCronometro() {
 
 	switch(comandoPlacar) {
 		case SOLTA_CRONOMETRO:
-			if(!flagCronometroZerado) {
+			if(!flagCronometroEstourado) {
 				flagCronometro = true;
 			}
 			break;

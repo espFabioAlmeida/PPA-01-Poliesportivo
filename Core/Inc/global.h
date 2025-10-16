@@ -69,7 +69,7 @@ extern uint8_t
 
 	flagCampainha,
 	flagCronometro,
-	flagCronometroZerado,
+	flagCronometroEstourado,
 
 	flagPacoteRS485;
 
