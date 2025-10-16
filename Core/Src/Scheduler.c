@@ -28,8 +28,20 @@ void tarefas10ms() {
 TAREFAS 100ms
 ==============================================================================*/
 void tarefas100ms() {
+	static uint8_t conta500ms = 0;
 	reiniciaWatchDog();
 
+	conta500ms ++;
+	if(conta500ms >= 5) {
+		conta500ms = 0;
+
+		if(flagCronometro) {
+			toggle(LED_CLOCK_GPIO_Port, LED_CLOCK_Pin);
+		}
+		else {
+			on(LED_CLOCK_GPIO_Port, LED_CLOCK_Pin);
+		}
+	}
 }
 /*==============================================================================
 TAREFAS 1s

@@ -31,7 +31,9 @@ extern CronometroTypeDef
 
 extern uint8_t
 	flagLedCPU,
-	flagLedCOM;
+	flagLedCOM,
+
+	flagCronometro;
 
 extern uint8_t
 	faltasEquipeA,

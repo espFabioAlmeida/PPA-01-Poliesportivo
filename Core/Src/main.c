@@ -58,7 +58,9 @@ CronometroTypeDef
 
 uint8_t
 	flagLedCPU = false,
-	flagLedCOM = false;
+	flagLedCOM = false,
+
+	flagCronometro = false;
 
 uint8_t
 	faltasEquipeA = 0,
