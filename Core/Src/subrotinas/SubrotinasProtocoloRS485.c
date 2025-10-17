@@ -35,7 +35,7 @@ CONFIGURAÇÃO CRONOMETRO
 ==============================================================================*/
 void comandoConfiguracaoCronometro(uint8_t offset) {
 	//$,01,20000,00000,1,\r\n
-	if(flagCronometro) { //Somente se estiver com o tempo parado
+	if(flagCronometro && !flagCronometroZerado) { //Somente se estiver com o tempo parado
 		return;
 	}
 	setpointCronometro.minutos = charToByte(rs485Buffer[offset + 5]) * 10;
