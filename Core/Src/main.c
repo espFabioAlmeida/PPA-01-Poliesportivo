@@ -64,6 +64,7 @@ uint8_t
 	flagCampainha = false,
 	flagCronometro = false,
 	flagCronometroEstourado = false,
+	flagCronometroZerado = false,
 
 	flagPacoteRS485 = true;
 
@@ -190,6 +191,8 @@ int main(void)
 
   verificaEeprom();
   readEeprom();
+
+  verificacaoInicialCronometro();
 
   HAL_UART_Receive_DMA(&huart2, &rs485DataIn, 1);
   /* USER CODE END 2 */

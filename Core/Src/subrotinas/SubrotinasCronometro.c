@@ -10,6 +10,33 @@
 VARIAVEIS
 ==============================================================================*/
 /*==============================================================================
+VERIFICACAO INICIAL CRONOMETRO
+==============================================================================*/
+void verificacaoInicialCronometro() {
+	if(tipoCronometro == REGRESSIVO) {
+		if(cronometro.minutos == setpointCronometro.minutos &&
+				cronometro.segundos == setpointCronometro.segundos &&
+				cronometro.decimais == setpointCronometro.decimais) {
+			flagCronometroZerado = true;
+		}
+
+		if(!cronometro.minutos && !cronometro.segundos && !cronometro.decimais) {
+			flagCronometroEstourado = true;
+		}
+		return;
+	}
+
+	if(!cronometro.minutos && !cronometro.segundos && !cronometro.decimais) {
+		flagCronometroZerado = true;
+	}
+
+	if(cronometro.minutos == setpointCronometro.minutos &&
+			cronometro.segundos == setpointCronometro.segundos &&
+			cronometro.decimais == setpointCronometro.decimais) {
+		flagCronometroEstourado = true;
+	}
+}
+/*==============================================================================
 ZERA CRONOMETRO
 ==============================================================================*/
 void zeraCronometro() {
@@ -25,6 +52,7 @@ void zeraCronometro() {
 	}
 
 	flagCronometroEstourado = false;
+	flagCronometroZerado = true;
 }
 /*==============================================================================
 CONTROLE CRONOMETRO
@@ -34,6 +62,8 @@ void controleCronometro() {
 	if(!flagCronometro) {
 		return;
 	}
+
+	flagCronometroZerado = false;
 
 	if(tipoCronometro == REGRESSIVO) {
 		if(cronometro.minutos && cronometro.segundos && cronometro.decimais) {
@@ -51,6 +81,10 @@ void controleCronometro() {
 			flagCronometro = false;
 			flagCronometroEstourado = true;
 			flagCampainha = true;
+
+			cronometro.minutos = 0;
+			cronometro.segundos = 0;
+			cronometro.decimais = 0;
 		}
 
 		return;
@@ -75,6 +109,10 @@ void controleCronometro() {
 		flagCronometro = false;
 		flagCronometroEstourado = true;
 		flagCampainha = true;
+
+		cronometro.minutos = setpointCronometro.minutos;
+		cronometro.segundos = setpointCronometro.segundos;
+		cronometro.decimais = setpointCronometro.decimais;
 	}
 }
 /*==============================================================================
