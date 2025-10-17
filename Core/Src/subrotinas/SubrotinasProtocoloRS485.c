@@ -60,6 +60,27 @@ void comandoConfiguracaoCronometro(uint8_t offset) {
 	//TODO: SALVAR INFORMAÇÕES
 }
 /*==============================================================================
+AJUSTE PONTOS
+==============================================================================*/
+void comandoAjustePontos(uint8_t offset) {
+	//$,50,025,078,\r\n
+	if(flagCronometro) { //Somente se estiver com o tempo parado
+		return;
+	}
+
+	pontosEquipeA = charToByte(rs485Buffer[offset + 5]);
+	pontosEquipeA *= 100;
+	pontosEquipeA += charToByte(rs485Buffer[offset + 6]) * 10;
+	pontosEquipeA += charToByte(rs485Buffer[offset + 7]);
+
+	pontosEquipeB = charToByte(rs485Buffer[offset + 9]);
+	pontosEquipeB *= 100;
+	pontosEquipeB += charToByte(rs485Buffer[offset + 10]) * 10;
+	pontosEquipeB += charToByte(rs485Buffer[offset + 11]);
+
+	//TODO: SALVAR INFORMAÇÕES
+}
+/*==============================================================================
 PROTOCOLO RS485
 ==============================================================================*/
 void protocoloRS485() {
@@ -103,6 +124,8 @@ void protocoloRS485() {
 			case 21: comandoPlacar = ZERA_TUDO; break;
 			case 22: comandoPlacar = PERIODO_1; break;
 			case 23: comandoPlacar = PERIODO_M1; break;
+
+			case 50: comandoAjustePontos(offset); break;
 
 			default: comandoPlacar = SEM_COMANDO; break;
 		}

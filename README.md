@@ -34,5 +34,11 @@ Comando 2 à 23: Ações do teclado.
 21: Zera Tudo <br>
 22: Período +1 <br>
 23: Período -1 <br>
+24 ~ 49: Livre <br>
+<br>
+Comando 50: Ajuste de pontos. Funciona somente com o cronometro parado. <br>
+-$,50,025,078,\r\n <br>
+058 = Pontos Equipe A <br>
+078 = Pontos Equipe B<br>
 <br>
 Todos os comandos são respondidos com $,CMD,\r\n
