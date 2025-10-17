@@ -22,6 +22,7 @@ void comandosTimeA() {
 
 		case TIMEA_FALTA_1: faltasEquipeA ++; break;
 		case TIMEA_FALTA_M1: faltasEquipeA --; break;
+		default: return; break;
 	}
 
 	if(pontosEquipeA > 999) {
@@ -31,6 +32,8 @@ void comandosTimeA() {
 	if(faltasEquipeA > 9) {
 		faltasEquipeA = 0;
 	}
+
+	salvaDadosPlacar();
 }
 /*==============================================================================
 COMANDOS TIME B
@@ -45,6 +48,7 @@ void comandosTimeB() {
 
 		case TIMEB_FALTA_1: faltasEquipeB ++; break;
 		case TIMEB_FALTA_M1: faltasEquipeB --; break;
+		default: return; break;
 	}
 
 	if(pontosEquipeB > 999) {
@@ -54,6 +58,8 @@ void comandosTimeB() {
 	if(faltasEquipeB > 9) {
 		faltasEquipeB = 0;
 	}
+
+	salvaDadosPlacar();
 }
 /*==============================================================================
 COMANDOS CRONOMETRO
@@ -67,7 +73,10 @@ void comandosCronometro() {
 			}
 			break;
 
-		case PARA_CRONOMETRO: flagCronometro = false; break;
+		case PARA_CRONOMETRO:
+			flagCronometro = false;
+			salvaCronometro();
+			break;
 		case PERIODO_1: periodo ++; break;
 		case PERIODO_M1: periodo --; break;
 

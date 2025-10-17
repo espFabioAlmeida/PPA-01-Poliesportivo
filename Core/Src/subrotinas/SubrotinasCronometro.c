@@ -85,6 +85,7 @@ void controleCronometro() {
 			cronometro.minutos = 0;
 			cronometro.segundos = 0;
 			cronometro.decimais = 0;
+			salvaCronometro();
 		}
 
 		return;
@@ -113,6 +114,7 @@ void controleCronometro() {
 		cronometro.minutos = setpointCronometro.minutos;
 		cronometro.segundos = setpointCronometro.segundos;
 		cronometro.decimais = setpointCronometro.decimais;
+		salvaCronometro();
 	}
 }
 /*==============================================================================

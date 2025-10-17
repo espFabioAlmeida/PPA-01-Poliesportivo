@@ -57,7 +57,8 @@ void comandoConfiguracaoCronometro(uint8_t offset) {
 		tipoCronometro = PROGRESSIVO;
 	}
 
-	//TODO: SALVAR INFORMAÇÕES
+	salvaCronometro();
+	salvaSetpointCronometro();
 }
 /*==============================================================================
 AJUSTE PONTOS
@@ -78,7 +79,7 @@ void comandoAjustePontos(uint8_t offset) {
 	pontosEquipeB += charToByte(rs485Buffer[offset + 10]) * 10;
 	pontosEquipeB += charToByte(rs485Buffer[offset + 11]);
 
-	//TODO: SALVAR INFORMAÇÕES
+	salvaDadosPlacar();
 }
 /*==============================================================================
 PROTOCOLO RS485
