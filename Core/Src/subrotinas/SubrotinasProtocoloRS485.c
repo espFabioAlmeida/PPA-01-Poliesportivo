@@ -50,10 +50,10 @@ void comandoConfiguracaoCronometro(uint8_t offset) {
 	cronometro.segundos += charToByte(rs485Buffer[offset + 14]);
 	cronometro.decimais = charToByte(rs485Buffer[offset + 15]);
 
-	if(rs485Buffer[offset + 17] == '1') {
+	if(rs485Buffer[offset + 17] == '0') {
 		tipoCronometro = REGRESSIVO;
 	}
-	else if(rs485Buffer[offset + 17] == '2') {
+	else if(rs485Buffer[offset + 17] == '1') {
 		tipoCronometro = PROGRESSIVO;
 	}
 
