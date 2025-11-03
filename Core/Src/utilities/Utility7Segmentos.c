@@ -90,17 +90,45 @@ ATUALIZA DISPLAY
 ==============================================================================*/
 void atualizaDisplays() {
 	static uint8_t valorDisplayCronometro = 0, valorDisplayEquipeA = 0, valorDisplayEquipeB = 0;
-	static uint8_t controleFuncao = 0, bit = 0, numero = 0;
+	//static uint8_t controleFuncao = 0, bit = 0, numero = 0;
 
 	on(DISPLAY1_ENABLE_GPIO_Port, DISPLAY1_ENABLE_Pin);
-	on(DISPLAY1_ST_GPIO_Port, DISPLAY1_ST_Pin);
+	off(DISPLAY1_ST_GPIO_Port, DISPLAY1_ST_Pin);
 
 	on(DISPLAY2_ENABLE_GPIO_Port, DISPLAY2_ENABLE_Pin);
-	on(DISPLAY2_ST_GPIO_Port, DISPLAY2_ST_Pin);
+	off(DISPLAY2_ST_GPIO_Port, DISPLAY2_ST_Pin);
 
 	on(DISPLAY3_ENABLE_GPIO_Port, DISPLAY3_ENABLE_Pin);
+	off(DISPLAY3_ST_GPIO_Port, DISPLAY3_ST_Pin);
+
+
+	displaySeparaDigitos();
+
+	for(uint8_t numero = 0; numero < 5; numero ++) {
+		valorDisplayCronometro = desenhaNumero(displaysCronometro[numero]);
+		valorDisplayEquipeA = desenhaNumero(displaysEquipeA[numero]);
+		valorDisplayEquipeB = desenhaNumero(displaysEquipeB[numero]);
+
+		for(uint8_t bit = 0; bit < 8; bit ++) {
+			setPin(DISPLAY2_DATA_GPIO_Port, DISPLAY2_DATA_Pin, bitRead(valorDisplayCronometro, bit));
+			setPin(DISPLAY3_DATA_GPIO_Port, DISPLAY3_DATA_Pin, bitRead(valorDisplayEquipeA, bit));
+			on(DISPLAY2_CLOCK_GPIO_Port, DISPLAY2_CLOCK_Pin);
+			on(DISPLAY3_CLOCK_GPIO_Port, DISPLAY3_CLOCK_Pin);
+			if(numero < 4) {
+				setPin(DISPLAY1_DATA_GPIO_Port, DISPLAY1_DATA_Pin, bitRead(valorDisplayEquipeB, bit));
+				on(DISPLAY1_CLOCK_GPIO_Port, DISPLAY1_CLOCK_Pin);
+			}
+			off(DISPLAY1_CLOCK_GPIO_Port, DISPLAY1_CLOCK_Pin);
+			off(DISPLAY2_CLOCK_GPIO_Port, DISPLAY2_CLOCK_Pin);
+			off(DISPLAY3_CLOCK_GPIO_Port, DISPLAY3_CLOCK_Pin);
+		}
+	}
+
+	on(DISPLAY1_ST_GPIO_Port, DISPLAY1_ST_Pin);
+	on(DISPLAY2_ST_GPIO_Port, DISPLAY2_ST_Pin);
 	on(DISPLAY3_ST_GPIO_Port, DISPLAY3_ST_Pin);
 
+	/*
 
 	switch(controleFuncao) {
 		case 0:
@@ -117,14 +145,15 @@ void atualizaDisplays() {
 			break;
 
 		case 2:
+			setPin(DISPLAY2_DATA_GPIO_Port, DISPLAY2_DATA_Pin, bitRead(valorDisplayCronometro, bit));
+			setPin(DISPLAY3_DATA_GPIO_Port, DISPLAY3_DATA_Pin, bitRead(valorDisplayEquipeA, bit));
+
 			on(DISPLAY2_CLOCK_GPIO_Port, DISPLAY2_CLOCK_Pin);
 			on(DISPLAY3_CLOCK_GPIO_Port, DISPLAY3_CLOCK_Pin);
 			if(numero < 4) {
-				on(DISPLAY1_CLOCK_GPIO_Port, DISPLAY1_CLOCK_Pin);
 				setPin(DISPLAY1_DATA_GPIO_Port, DISPLAY1_DATA_Pin, bitRead(valorDisplayEquipeB, bit));
+				on(DISPLAY1_CLOCK_GPIO_Port, DISPLAY1_CLOCK_Pin);
 			}
-			setPin(DISPLAY2_DATA_GPIO_Port, DISPLAY2_DATA_Pin, bitRead(valorDisplayCronometro, bit));
-			setPin(DISPLAY3_DATA_GPIO_Port, DISPLAY3_DATA_Pin, bitRead(valorDisplayEquipeA, bit));
 			controleFuncao ++;
 			break;
 
@@ -157,7 +186,7 @@ void atualizaDisplays() {
 					numero = 0;
 				}
 			}
-	}
+	}*/
 }
 /*==============================================================================
 FIM DO ARQUIVO
