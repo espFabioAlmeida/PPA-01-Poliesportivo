@@ -46,6 +46,7 @@ void tarefas100ms() {
 
 	if(flagCampainha) {
 		on(SIRENE_GPIO_Port, SIRENE_Pin);
+		on(RELE_GPIO_Port, RELE_Pin);
 		contaTempoCampainha ++;
 		if(contaTempoCampainha >= TEMPO_CAMPAINHA) {
 			contaTempoCampainha = 0;
@@ -55,6 +56,7 @@ void tarefas100ms() {
 	else {
 		contaTempoCampainha = 0;
 		off(SIRENE_GPIO_Port, SIRENE_Pin);
+		off(RELE_GPIO_Port, RELE_Pin);
 	}
 }
 /*==============================================================================
