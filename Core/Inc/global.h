@@ -65,7 +65,6 @@ extern CronometroTypeDef
 	setpointCronometro;
 
 extern uint8_t
-	flagLedCPU,
 	flagLedCOM,
 
 	flagCampainha,

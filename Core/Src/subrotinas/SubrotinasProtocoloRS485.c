@@ -29,6 +29,8 @@ void enviaRespostaRS485(uint8_t comando) {
 	strcat(bufferEnviaRS485, ",\r\n");
 
 	HAL_UART_Transmit(&huart2, &bufferEnviaRS485, strlen(bufferEnviaRS485), 200);
+
+	flagLedCOM = true;
 }
 /*==============================================================================
 CONFIGURAÇÃO CRONOMETRO

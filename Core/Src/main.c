@@ -57,7 +57,6 @@ CronometroTypeDef
 	setpointCronometro;
 
 uint8_t
-	flagLedCPU = false,
 	flagLedCOM = false,
 
 	flagCampainha = false,

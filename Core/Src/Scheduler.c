@@ -44,6 +44,16 @@ void tarefas100ms() {
 		}
 	}
 
+	toggle(LED_CPU_GPIO_Port, LED_CPU_Pin);
+
+	if(flagLedCOM) {
+		flagLedCOM = false;
+		off(LED_COM_GPIO_Port, LED_COM_Pin);
+	}
+	else {
+		on(LED_COM_GPIO_Port, LED_COM_Pin);
+	}
+
 	if(flagCampainha) {
 		on(SIRENE_GPIO_Port, SIRENE_Pin);
 		on(RELE_GPIO_Port, RELE_Pin);
