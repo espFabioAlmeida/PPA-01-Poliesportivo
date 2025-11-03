@@ -100,17 +100,23 @@ void controleCronometro() {
 	}
 
 
-	if(cronometro.minutos >= setpointCronometro.minutos &&
-			cronometro.segundos >= setpointCronometro.segundos &&
-			cronometro.decimais >= setpointCronometro.decimais) {
-
+	if(cronometro.minutos < setpointCronometro.minutos) {
 		cronometro.decimais ++;
 		if(cronometro.decimais > 9) {
 			cronometro.decimais = 0;
 			cronometro.segundos ++;
-			if(cronometro.segundos > 9) {
+			if(cronometro.segundos > 59) {
 				cronometro.segundos = 0;
 				cronometro.minutos ++;
+				if(cronometro.minutos >= setpointCronometro.minutos) {
+					flagCronometro = false;
+					flagCronometroEstourado = true;
+					flagCampainha = true;
+
+					cronometro.minutos = setpointCronometro.minutos;
+					cronometro.segundos = setpointCronometro.segundos;
+					cronometro.decimais = setpointCronometro.decimais;
+				}
 			}
 		}
 	}
