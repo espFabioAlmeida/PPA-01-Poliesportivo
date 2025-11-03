@@ -49,7 +49,7 @@ void tarefas100ms() {
 		contaTempoCampainha ++;
 		if(contaTempoCampainha >= TEMPO_CAMPAINHA) {
 			contaTempoCampainha = 0;
-			flagCampainha = 0;
+			flagCampainha = false;
 		}
 	}
 	else {

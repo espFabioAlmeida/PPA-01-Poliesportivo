@@ -66,14 +66,23 @@ void controleCronometro() {
 	flagCronometroZerado = false;
 
 	if(tipoCronometro == REGRESSIVO) {
-		if(cronometro.minutos && cronometro.segundos && cronometro.decimais) {
+		if(cronometro.minutos <= 99) {
 			cronometro.decimais --;
 			if(cronometro.decimais > 9) {
 				cronometro.decimais = 9;
 				cronometro.segundos --;
-				if(cronometro.segundos < 9) {
-					cronometro.segundos = 9;
+				if(cronometro.segundos > 59) {
+					cronometro.segundos = 59;
 					cronometro.minutos --;
+					if(cronometro.minutos > 99) {
+						flagCronometro = false;
+						flagCronometroEstourado = true;
+						flagCampainha = true;
+
+						cronometro.minutos = 0;
+						cronometro.segundos = 0;
+						cronometro.decimais = 0;
+					}
 				}
 			}
 		}
@@ -85,7 +94,6 @@ void controleCronometro() {
 			cronometro.minutos = 0;
 			cronometro.segundos = 0;
 			cronometro.decimais = 0;
-			salvaCronometro();
 		}
 
 		return;
@@ -114,7 +122,7 @@ void controleCronometro() {
 		cronometro.minutos = setpointCronometro.minutos;
 		cronometro.segundos = setpointCronometro.segundos;
 		cronometro.decimais = setpointCronometro.decimais;
-		salvaCronometro();
+		//salvaCronometro();
 	}
 }
 /*==============================================================================
