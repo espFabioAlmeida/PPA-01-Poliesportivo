@@ -49,7 +49,6 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart2;
-DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
 
@@ -98,7 +97,6 @@ char
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_IWDG_Init(void);
 static void MX_USART2_UART_Init(void);
@@ -133,6 +131,10 @@ void reiniciaWatchDog() {
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if(huart-> Instance==USART2) { // RS485
+		if(rs485DataIn == 0x0) {
+			return;
+		}
+
 		rs485Buffer[contadorRS485Buffer] = rs485DataIn;
 		contadorRS485Buffer ++;
 
@@ -176,7 +178,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_I2C1_Init();
   MX_IWDG_Init();
   MX_USART2_UART_Init();
@@ -193,8 +194,6 @@ int main(void)
   readEeprom();
 
   verificacaoInicialCronometro();
-
-  HAL_UART_Receive_DMA(&huart2, &rs485DataIn, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -205,6 +204,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_UART_Receive_IT(&huart2, &rs485DataIn, 1);
 	  protocoloRS485();
   }
   /* USER CODE END 3 */
@@ -500,22 +500,6 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Channel4_5_6_7_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
 
 }
 

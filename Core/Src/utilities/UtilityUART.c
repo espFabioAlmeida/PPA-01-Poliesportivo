@@ -11,7 +11,7 @@ DEBOUNCE
 ==============================================================================*/
 void limpaRS485Buffer() {
 	contadorRS485Buffer = 0;
-	memset(rs485Buffer, TAMANHO_RS485_BUFFER, 0x00);
+	memset(rs485Buffer, 0x00, TAMANHO_RS485_BUFFER);
 }
 /*==============================================================================
 FIM DO ARQUIVO
