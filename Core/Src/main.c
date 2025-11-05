@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "global.h"
@@ -48,16 +49,56 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart2;
-DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
+
+CronometroTypeDef
+	cronometro,
+	setpointCronometro;
+
+uint8_t
+	flagLedCOM = false,
+
+	flagCampainha = false,
+	flagCronometro = false,
+	flagCronometroEstourado = false,
+	flagCronometroZerado = false,
+
+	flagTempoTimeA = false,
+	flagTempoTimeB = false,
+
+	flagPacoteRS485 = true;
+
+uint8_t
+	faltasEquipeA = 0,
+	faltasEquipeB = 0,
+	periodo = 1,
+	tipoCronometro = REGRESSIVO,
+
+	comandoPlacar = SEM_COMANDO,
+
+	contadorRS485Buffer = 0;
+
+char
+	rs485DataIn = 0;
+
+uint16_t
+	pontosEquipeA = 0,
+	pontosEquipeB = 0;
+
+uint8_t
+	displaysCronometro[5],
+	displaysEquipeA[5],
+	displaysEquipeB[5];
+
+char
+	rs485Buffer[TAMANHO_RS485_BUFFER];
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_IWDG_Init(void);
 static void MX_USART2_UART_Init(void);
@@ -70,7 +111,45 @@ static void MX_TIM6_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if(htim == &htim3) {
+		schedulerEngine();
+	}
 
+	if(htim == &htim6) {
+		controleCronometro();
+	}
+}
+
+void delayMicro(uint32_t tempo) {
+	__HAL_TIM_SET_COUNTER(&htim2, 0);
+	while(__HAL_TIM_GET_COUNTER(&htim2) < tempo) {
+	}
+}
+
+void reiniciaWatchDog() {
+	HAL_IWDG_Refresh(&hiwdg);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if(huart-> Instance==USART2) { // RS485
+		if(rs485DataIn == 0x0) {
+			return;
+		}
+
+		rs485Buffer[contadorRS485Buffer] = rs485DataIn;
+		contadorRS485Buffer ++;
+
+		if(contadorRS485Buffer >= TAMANHO_RS485_BUFFER) {
+			limpaRS485Buffer();
+		}
+
+		if(rs485DataIn == 0x0A) {
+			flagPacoteRS485 = true;
+		}
+	}
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -101,7 +180,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_I2C1_Init();
   MX_IWDG_Init();
   MX_USART2_UART_Init();
@@ -109,16 +187,29 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start(&htim2); //Timer do delay us
+  HAL_TIM_Base_Start_IT(&htim3); //Timer do Scheduller
+  HAL_TIM_Base_Start_IT(&htim6); //Cronometro
 
+  apresentacaoInicial();
+
+  verificaEeprom();
+  readEeprom();
+
+  verificacaoInicialCronometro();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  controlePlacar();
+	  saidasDigitais();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_UART_Receive_IT(&huart2, &rs485DataIn, 1);
+	  protocoloRS485();
   }
   /* USER CODE END 3 */
 }
@@ -417,22 +508,6 @@ static void MX_USART2_UART_Init(void)
 }
 
 /**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Channel4_5_6_7_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -455,7 +530,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, OUT5_Pin|OUT6_Pin|DISPLAY2_ST_Pin|DISPLAY2_ENABLE_Pin
-                          |DISPLAY3_DATAC8_Pin|DISPLAY3_CLOCKC9_Pin, GPIO_PIN_RESET);
+                          |DISPLAY2_DATA_Pin|DISPLAY2_CLOCK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, OUT7_Pin|LED_CLOCK_Pin|LED_EQUIPEA_Pin|LED_EQUIPEB_Pin
@@ -474,9 +549,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : OUT5_Pin OUT6_Pin DISPLAY2_ST_Pin DISPLAY2_ENABLE_Pin
-                           DISPLAY3_DATAC8_Pin DISPLAY3_CLOCKC9_Pin */
+                           DISPLAY2_DATA_Pin DISPLAY2_CLOCK_Pin */
   GPIO_InitStruct.Pin = OUT5_Pin|OUT6_Pin|DISPLAY2_ST_Pin|DISPLAY2_ENABLE_Pin
-                          |DISPLAY3_DATAC8_Pin|DISPLAY3_CLOCKC9_Pin;
+                          |DISPLAY2_DATA_Pin|DISPLAY2_CLOCK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

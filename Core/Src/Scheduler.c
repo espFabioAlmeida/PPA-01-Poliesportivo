@@ -22,14 +22,52 @@ void tarefas1ms() {
 TAREFAS 10ms
 ==============================================================================*/
 void tarefas10ms() {
-
+	atualizaDisplays();
 }
 /*==============================================================================
 TAREFAS 100ms
 ==============================================================================*/
 void tarefas100ms() {
+	static uint8_t conta500ms = 0;
+	static uint8_t contaTempoCampainha = 0;
 	reiniciaWatchDog();
 
+	conta500ms ++;
+	if(conta500ms >= 5) {
+		conta500ms = 0;
+
+		if(flagCronometro) {
+			toggle(LED_CLOCK_GPIO_Port, LED_CLOCK_Pin);
+		}
+		else {
+			on(LED_CLOCK_GPIO_Port, LED_CLOCK_Pin);
+		}
+	}
+
+	toggle(LED_CPU_GPIO_Port, LED_CPU_Pin);
+
+	if(flagLedCOM) {
+		flagLedCOM = false;
+		off(LED_COM_GPIO_Port, LED_COM_Pin);
+	}
+	else {
+		on(LED_COM_GPIO_Port, LED_COM_Pin);
+	}
+
+	if(flagCampainha) {
+		on(SIRENE_GPIO_Port, SIRENE_Pin);
+		on(RELE_GPIO_Port, RELE_Pin);
+		contaTempoCampainha ++;
+		if(contaTempoCampainha >= TEMPO_CAMPAINHA) {
+			contaTempoCampainha = 0;
+			flagCampainha = false;
+		}
+	}
+	else {
+		contaTempoCampainha = 0;
+		off(SIRENE_GPIO_Port, SIRENE_Pin);
+		off(RELE_GPIO_Port, RELE_Pin);
+	}
 }
 /*==============================================================================
 TAREFAS 1s
