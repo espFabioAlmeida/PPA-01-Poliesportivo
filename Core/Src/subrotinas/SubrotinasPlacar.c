@@ -22,6 +22,7 @@ void comandosTimeA() {
 
 		case TIMEA_FALTA_1: faltasEquipeA ++; break;
 		case TIMEA_FALTA_M1: faltasEquipeA --; break;
+		case TIMEA_TEMPO: flagTempoTimeA = !flagTempoTimeA; break;
 		default: return; break;
 	}
 
@@ -48,6 +49,7 @@ void comandosTimeB() {
 
 		case TIMEB_FALTA_1: faltasEquipeB ++; break;
 		case TIMEB_FALTA_M1: faltasEquipeB --; break;
+		case TIMEB_TEMPO: flagTempoTimeB = !flagTempoTimeB; break;
 		default: return; break;
 	}
 
@@ -96,6 +98,8 @@ void comandosCronometro() {
 		case ZERA_CRONOMETRO:
 			if(!flagCronometro) {
 				zeraCronometro();
+				flagTempoTimeA = false;
+				flagTempoTimeB = false;
 			}
 			break;
 
@@ -107,6 +111,8 @@ void comandosCronometro() {
 				pontosEquipeB = 0;
 				periodo = 1;
 				zeraCronometro();
+				flagTempoTimeA = false;
+				flagTempoTimeB = false;
 			}
 			break;
 	}

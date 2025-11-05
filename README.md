@@ -4,6 +4,10 @@ Projeto Automasensor: PPA-01-Poliesportivo
 Placar poliesportivo. Possui cronômetro com 5 dígitos (MM:SS.S). 3 dígitos para pontos para cada equipe, um para faltas/set para cada equipe além do período. <br>
 O placar é controlado pela porta serial RS485. <br>
 O cronômetro pode ser crescente ou decrescente. <br>
+# Ordem dos displays
+Saída Equipe A: Centena pontos equipe A, dezena, unidade, faltas e período <br>
+Saída Equipe B: Centena pontos equipe B, dezena, unidade e faltas <br>
+Saída Cronômetro: Dezena minutos, unidade, dezena segundos, unidade e centésimos de segundos <br>
 # Protocolo RS485
 Comando 1: Configuração do teclado, funciona apenas com o placar parado e zerado. <br>
 -$,01,20000,00000,1,\r\n <br>

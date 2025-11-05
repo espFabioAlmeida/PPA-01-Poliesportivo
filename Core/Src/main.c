@@ -64,6 +64,9 @@ uint8_t
 	flagCronometroEstourado = false,
 	flagCronometroZerado = false,
 
+	flagTempoTimeA = false,
+	flagTempoTimeB = false,
+
 	flagPacoteRS485 = true;
 
 uint8_t
@@ -201,6 +204,7 @@ int main(void)
   while (1)
   {
 	  controlePlacar();
+	  saidasDigitais();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

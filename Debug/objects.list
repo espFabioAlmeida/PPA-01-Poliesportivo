@@ -10,6 +10,7 @@
 "./Core/Src/subrotinas/SubrotinasDisplay.o"
 "./Core/Src/subrotinas/SubrotinasPlacar.o"
 "./Core/Src/subrotinas/SubrotinasProtocoloRS485.o"
+"./Core/Src/subrotinas/SubrotinasSaidasDigitais.o"
 "./Core/Src/utilities/Utility7Segmentos.o"
 "./Core/Src/utilities/UtilityEeprom.o"
 "./Core/Src/utilities/UtilityGPIO.o"

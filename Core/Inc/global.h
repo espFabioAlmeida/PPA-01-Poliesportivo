@@ -72,6 +72,9 @@ extern uint8_t
 	flagCronometroEstourado,
 	flagCronometroZerado,
 
+	flagTempoTimeA,
+	flagTempoTimeB,
+
 	flagPacoteRS485;
 
 extern uint8_t
