@@ -66,6 +66,7 @@ extern CronometroTypeDef
 
 extern uint8_t
 	flagLedCOM,
+	flagAtualizaDisplays,
 
 	flagCampainha,
 	flagCronometro,

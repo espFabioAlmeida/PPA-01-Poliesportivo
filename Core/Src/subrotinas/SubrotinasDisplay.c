@@ -24,6 +24,8 @@ void apresentacaoInicial() {
 		pontosEquipeA = i * 111;
 		faltasEquipeB = i;
 		pontosEquipeB = i * 111;
+		flagAtualizaDisplays = true;
+		atualizaDisplays();
 		HAL_Delay(500);
 	}
 
@@ -36,6 +38,8 @@ void apresentacaoInicial() {
 	cronometro.minutos = 12;
 	cronometro.segundos = 34;
 	cronometro.decimais = 5;
+	flagAtualizaDisplays = true;
+	atualizaDisplays();
 	HAL_Delay(1500);
 
 	pontosEquipeA = 0;

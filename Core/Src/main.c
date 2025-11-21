@@ -58,6 +58,7 @@ CronometroTypeDef
 
 uint8_t
 	flagLedCOM = false,
+	flagAtualizaDisplays = false,
 
 	flagCampainha = false,
 	flagCronometro = false,
@@ -203,6 +204,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  atualizaDisplays();
 	  controlePlacar();
 	  saidasDigitais();
     /* USER CODE END WHILE */
